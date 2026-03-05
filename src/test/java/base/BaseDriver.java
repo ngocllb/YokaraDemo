@@ -1,47 +1,31 @@
 package base;
 
+import core.DriverFactory;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.options.UiAutomator2Options;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
-import java.net.URL;
+import java.time.Duration;
 
 public class BaseDriver {
 
     protected AndroidDriver driver;
+    protected WebDriverWait wait;
 
-    public AndroidDriver getDriver() {
-        return driver;
+    @BeforeMethod
+    public void setup() {
+
+        driver = DriverFactory.createDriver();
+
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    public void initDriver() throws Exception {
-
-        UiAutomator2Options options = new UiAutomator2Options();
-
-        options.setPlatformName("Android");
-        options.setDeviceName("4c039a0d");
-
-        options.setAppPackage("com.yokara.v3");
-        options.setAppActivity("com.yokara.v3.MainActivity");
-
-        options.setAutomationName("UiAutomator2");
-
-        options.setCapability("noReset", true);
-
-        options.setCapability("ignoreHiddenApiPolicyError", true);
-
-        options.setCapability("autoGrantPermissions", true);
-
-        driver = new AndroidDriver(
-                new URL("http://127.0.0.1:4723"),
-                options
-        );
-    }
-
-    public void quitDriver() {
+    @AfterMethod
+    public void teardown() {
 
         if (driver != null) {
             driver.quit();
         }
-
     }
 }

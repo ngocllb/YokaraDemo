@@ -1,6 +1,5 @@
 package core;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 
@@ -8,22 +7,36 @@ import java.net.URL;
 
 public class DriverFactory {
 
-    public static AppiumDriver createDriver() throws Exception {
+    public static AndroidDriver createDriver() {
 
-        UiAutomator2Options options = new UiAutomator2Options();
+        try {
 
-        options.setPlatformName("Android");
-        options.setDeviceName(ConfigManager.get("deviceName"));
-        options.setUdid(ConfigManager.get("udid"));
-        options.setAppPackage(ConfigManager.get("appPackage"));
-        options.setAppActivity(ConfigManager.get("appActivity"));
-        options.setAutomationName("UiAutomator2");
+            String deviceId = DeviceManager.getConnectedDevice();
 
-        options.setCapability("noReset", true);
+            System.out.println("Detected device: " + deviceId);
 
-        return new AndroidDriver(
-                new URL(ConfigManager.get("serverURL")),
-                options
-        );
+            UiAutomator2Options options = new UiAutomator2Options();
+
+            options.setPlatformName("Android");
+            options.setAutomationName("UiAutomator2");
+
+            options.setUdid(deviceId);
+
+            options.setAppPackage("com.yokara.v3");
+            options.setAppActivity(".MainActivity");
+
+            options.setCapability("noReset", true);
+            options.setCapability("autoGrantPermissions", true);
+            options.setCapability("ignoreHiddenApiPolicyError", true);
+
+            return new AndroidDriver(
+                    new URL("http://127.0.0.1:4723"),
+                    options
+            );
+
+        } catch (Exception e) {
+
+            throw new RuntimeException("Failed to create driver", e);
+        }
     }
 }

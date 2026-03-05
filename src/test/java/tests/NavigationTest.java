@@ -3,9 +3,8 @@ package tests;
 import base.BaseDriver;
 import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class NavigationTest extends BaseDriver {
@@ -13,34 +12,19 @@ public class NavigationTest extends BaseDriver {
     By tabToi = AppiumBy.accessibilityId("Tôi");
     By menuVIP = AppiumBy.accessibilityId("VIP");
 
-    @BeforeClass
-    public void setup() throws Exception {
-        initDriver();
-    }
-
     @Test
-    public void testNavigateToToi() throws InterruptedException {
+    public void testNavigateToToi() {
 
         System.out.println("Navigate to Tôi page");
 
-        Thread.sleep(3000);
+        wait.until(ExpectedConditions.elementToBeClickable(tabToi)).click();
 
-        driver.findElement(tabToi).click();
-
-        Thread.sleep(3000);
-
-        boolean isVipVisible = driver.findElement(menuVIP).isDisplayed();
+        boolean isVipVisible =
+                wait.until(ExpectedConditions.visibilityOfElementLocated(menuVIP))
+                        .isDisplayed();
 
         Assert.assertTrue(isVipVisible, "VIP menu not found");
 
         System.out.println("VIP menu verified");
-
-    }
-
-    @AfterClass
-    public void tearDown() {
-
-        quitDriver();
-
     }
 }
