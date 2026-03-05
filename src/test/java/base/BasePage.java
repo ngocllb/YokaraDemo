@@ -4,8 +4,8 @@ import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
+import java.util.Map;
 
 public class BasePage {
 
@@ -33,6 +33,19 @@ public class BasePage {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /* ===== Dynamic click using Map ===== */
+
+    protected void clickByKey(Map<String, By> map, String key){
+
+        By locator = map.get(key.toLowerCase());
+
+        if(locator == null){
+            throw new RuntimeException("Locator not found for key: " + key);
+        }
+
+        click(locator);
     }
 
 }

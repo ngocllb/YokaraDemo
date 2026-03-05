@@ -2,12 +2,14 @@
 
 <suite name="Yokara Suite">
 
-    <test name="Navigation">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
 
+    <test name="Navigation">
         <classes>
             <class name="tests.NavigationTest"/>
         </classes>
-
     </test>
 
 </suite>

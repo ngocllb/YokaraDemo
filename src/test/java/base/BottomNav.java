@@ -8,7 +8,7 @@ import pages.TrangChu.TrangChuPage;
 import pages.TrucTuyen.TrucTuyenPage;
 import pages.Hat.HatPage;
 import pages.TinNhan.TinNhanPage;
-import pages.toi.ToiProfilePage;
+import pages.Toi.ToiProfilePage;
 
 public class BottomNav extends BasePage {
 

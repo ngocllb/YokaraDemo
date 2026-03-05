@@ -29,6 +29,8 @@ public class BaseDriver {
 
         options.setCapability("ignoreHiddenApiPolicyError", true);
 
+        options.setCapability("autoGrantPermissions", true);
+
         driver = new AndroidDriver(
                 new URL("http://127.0.0.1:4723"),
                 options

@@ -1,4 +1,4 @@
-package pages.toi;
+package pages.Toi;
 
 import base.BasePage;
 import base.BottomNav;
@@ -8,22 +8,33 @@ import org.openqa.selenium.By;
 
 public class ToiProfilePage extends BasePage {
 
-    BottomNav bottomNav;
+    private BottomNav bottomNav;
 
     private By menuVIP = AppiumBy.accessibilityId("VIP");
 
     public ToiProfilePage(AppiumDriver driver) {
 
         super(driver);
-        bottomNav = new BottomNav(driver);
+        this.bottomNav = new BottomNav(driver);
+
     }
 
-    public boolean isVipMenuDisplayed() {
+    public boolean isVipMenuVisible() {
 
         return isDisplayed(menuVIP);
+
+    }
+
+    public boolean isProfileLoaded() {
+
+        return isVipMenuVisible();
+
     }
 
     public BottomNav nav() {
+
         return bottomNav;
+
     }
+
 }
