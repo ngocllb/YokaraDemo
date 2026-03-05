@@ -18,7 +18,7 @@ public class BaseDriver {
 
         driver = DriverFactory.createDriver();
 
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
     @AfterMethod
@@ -27,5 +27,10 @@ public class BaseDriver {
         if (driver != null) {
             driver.quit();
         }
+    }
+
+    // ⭐ thêm method này
+    public AndroidDriver getDriver() {
+        return driver;
     }
 }
