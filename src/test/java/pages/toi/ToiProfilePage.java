@@ -5,41 +5,39 @@ import base.BottomNav;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ToiProfilePage extends BasePage {
 
-    private final BottomNav bottomNav;
+    BottomNav bottomNav;
 
-    private final By menuVIP =
-            AppiumBy.accessibilityId("VIP");
-
-    private final By userUID =
-            AppiumBy.androidUIAutomator(
-                    "new UiSelector().className(\"android.widget.ImageView\")"
-            );
+    // UID hiển thị trên profile
+    private By userId =
+            AppiumBy.xpath("//android.widget.ImageView[@content-desc]");
 
     public ToiProfilePage(AppiumDriver driver){
         super(driver);
         bottomNav = new BottomNav(driver);
     }
 
-    /**
-     * Verify VIP menu hiển thị
-     */
-    public boolean isVipMenuDisplayed(){
-        return isDisplayed(menuVIP);
+    public String getUserId(){
+
+        return find(userId).getAttribute("content-desc");
     }
 
-    /**
-     * Verify UID hiển thị
-     */
-    public boolean isUserIDDisplayed(){
-        return isDisplayed(userUID);
+    public boolean isUserIdDisplayed(String uid){
+
+        By userId =
+                AppiumBy.xpath("//android.widget.ImageView[@content-desc='" + uid + "']");
+
+        try{
+            wait.until(ExpectedConditions.visibilityOfElementLocated(userId));
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 
-    /**
-     * Access Bottom Navigation
-     */
     public BottomNav nav(){
         return bottomNav;
     }

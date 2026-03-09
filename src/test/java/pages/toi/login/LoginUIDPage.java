@@ -8,21 +8,19 @@ import pages.toi.ToiProfilePage;
 
 public class LoginUIDPage extends BasePage {
 
-    // container để focus UID input
+    // container để focus UID
     private By uidContainer =
             AppiumBy.accessibilityId("Mời nhập ID");
 
     // UID input
     private By inputUID =
-            AppiumBy.className("android.widget.EditText");
+            AppiumBy.xpath("//android.view.View[@content-desc='Mời nhập ID']//android.widget.EditText");
 
-    // password input
+    // PASSWORD input
     private By inputPassword =
-            AppiumBy.androidUIAutomator(
-                    "new UiSelector().className(\"android.widget.EditText\").password(true)"
-            );
+            AppiumBy.xpath("//android.widget.EditText[@hint='Vui lòng nhập mật khẩu']");
 
-    // login button
+    // LOGIN button
     private By btnLogin =
             AppiumBy.accessibilityId("Đăng nhập");
 
@@ -35,11 +33,11 @@ public class LoginUIDPage extends BasePage {
         // focus UID field
         click(uidContainer);
 
+        // nhập UID
         type(inputUID, uid);
 
-        // nhập password
         click(inputPassword);
-
+        // nhập password
         type(inputPassword, password);
 
         // click login

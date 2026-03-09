@@ -35,14 +35,14 @@ public class LoginMethodTest extends BaseDriver {
 
         ToiProfilePage profilePage = Allure.step(
                 "Login bằng UID",
-                () -> auth.login("uid", "6026833", "Abcd1234")
+                () -> auth.login("uid", TEST_UID, TEST_PASSWORD)
         );
 
-        Allure.step("Verify login thành công");
+        Allure.step("Verify UID sau khi login");
 
         Assert.assertTrue(
-                profilePage.isVipMenuDisplayed(),
-                "VIP menu không hiển thị → login failed"
+                profilePage.isUserIdDisplayed(TEST_UID),
+                "UID hiển thị không đúng sau khi login"
         );
     }
 }
