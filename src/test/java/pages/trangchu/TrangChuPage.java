@@ -1,4 +1,4 @@
-package pages.TrangChu;
+package pages.trangchu;
 
 import base.BasePage;
 import base.BottomNav;

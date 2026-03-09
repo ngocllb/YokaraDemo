@@ -1,4 +1,4 @@
-package pages.Toi;
+package pages.toi;
 
 import base.BasePage;
 import io.appium.java_client.AppiumDriver;

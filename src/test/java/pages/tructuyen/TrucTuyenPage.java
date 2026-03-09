@@ -1,4 +1,4 @@
-package pages.TrucTuyen;
+package pages.tructuyen;
 
 import base.BasePage;
 import io.appium.java_client.AppiumDriver;

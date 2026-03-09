@@ -1,4 +1,4 @@
-package pages.Hat;
+package pages.hat;
 
 import base.BasePage;
 import io.appium.java_client.AppiumDriver;

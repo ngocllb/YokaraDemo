@@ -1,4 +1,4 @@
-package pages.Toi.Login;
+package pages.toi.login;
 
 import base.BasePage;
 import io.appium.java_client.AppiumBy;
@@ -42,7 +42,7 @@ public class LoginMethodPage extends BasePage {
                 return new LoginPhonePage(driver);
 
             default:
-                return new SocialAccountPage(driver);
+                return new AccountPage(driver);
         }
     }
 }

@@ -26,6 +26,15 @@ public class BasePage {
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
+    protected void type(By locator, String text){
+
+        WebElement element =
+                wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+
+        element.clear();
+        element.sendKeys(text);
+    }
+
     protected boolean isDisplayed(By locator) {
 
         try {

@@ -4,11 +4,11 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
-import pages.TrangChu.TrangChuPage;
-import pages.TrucTuyen.TrucTuyenPage;
-import pages.Hat.HatPage;
-import pages.TinNhan.TinNhanPage;
-import pages.Toi.ToiProfilePage;
+import pages.trangchu.TrangChuPage;
+import pages.tructuyen.TrucTuyenPage;
+import pages.hat.HatPage;
+import pages.tinnhan.TinNhanPage;
+import pages.toi.ToiProfilePage;
 
 public class BottomNav extends BasePage {
 

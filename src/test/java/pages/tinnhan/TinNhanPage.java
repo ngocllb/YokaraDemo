@@ -1,4 +1,4 @@
-package pages.TinNhan;
+package pages.tinnhan;
 
 import base.BasePage;
 import io.appium.java_client.AppiumDriver;
