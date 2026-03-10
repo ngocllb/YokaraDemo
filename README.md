@@ -28,11 +28,11 @@
   "ignoreHiddenApiPolicyError": true
 }
 
-udid -> adb devices
-package -> adb shell dumpsys window | findstr mCurrentFocus (mở app đã rồi chạy)
-"noReset": true => không reset app, không uninstall, giữ login state
-"autoGrantPermissions": true => tự động grant permission khi install app
-"ignoreHiddenApiPolicyError": true => android 10+ có các lỗi về policy, nên cần thêm phần này để có thể access được khi spec app
+- udid -> adb devices
+- package -> adb shell dumpsys window | findstr mCurrentFocus (mở app đã rồi chạy)
+- "noReset": true => không reset app, không uninstall, giữ login state
+- "autoGrantPermissions": true => tự động grant permission khi install app
+- "ignoreHiddenApiPolicyError": true => android 10+ có các lỗi về policy, nên cần thêm phần này để có thể access được khi spec app
 
 hoặc search chatGPT 1 script CMD giúp tự động generate toàn bộ Appium capability của device
 
