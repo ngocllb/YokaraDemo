@@ -39,5 +39,6 @@ hoặc search chatGPT 1 script CMD giúp tự động generate toàn bộ Appium
 4. Các bước chạy
 Cmd : Appium => lấy server (vd:  http://127.0.0.1:4723)
 cmd: appium --address 127.0.0.1 --port 4723
-Bật Selenium inspector sau  chạy Json 
-chạy mvn clean test để test thử bộ testcase
+Bật Selenium inspector sau  chạy Json
+cmd: mvn clean test để test thử bộ testcase
+cmd: allure serve allure-results => gene report Allure
