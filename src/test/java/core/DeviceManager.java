@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 
 public class DeviceManager {
 
-    public static String getConnectedDevice() {
+    public static String getAndroidUDID() {
 
         try {
 
@@ -20,16 +20,15 @@ public class DeviceManager {
 
                 if (line.endsWith("device") && !line.startsWith("List")) {
 
-                    return line.split("\t")[0];
+                    return line.split("\\s")[0];
                 }
             }
 
         } catch (Exception e) {
 
-            throw new RuntimeException("Cannot detect device", e);
-
+            throw new RuntimeException("No Android device found");
         }
 
-        throw new RuntimeException("No device connected");
+        return null;
     }
 }

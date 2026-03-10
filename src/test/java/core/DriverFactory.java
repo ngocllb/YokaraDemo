@@ -1,42 +1,68 @@
 package core;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.options.XCUITestOptions;
 
 import java.net.URL;
 
 public class DriverFactory {
 
-    public static AndroidDriver createDriver() {
+    public static AppiumDriver createDriver() {
 
         try {
 
-            String deviceId = DeviceManager.getConnectedDevice();
+            String server =
+                    ConfigManager.get("appiumServer");
 
-            System.out.println("Detected device: " + deviceId);
+            String platform =
+                    ConfigManager.get("platform");
 
-            UiAutomator2Options options = new UiAutomator2Options();
+            if (platform.equalsIgnoreCase("android") || platform.equalsIgnoreCase("auto")) {
 
-            options.setPlatformName("Android");
-            options.setAutomationName("UiAutomator2");
+                String udid = DeviceManager.getAndroidUDID();
 
-            options.setUdid(deviceId);
+                UiAutomator2Options options = new UiAutomator2Options();
 
-            options.setAppPackage("com.yokara.v3");
-            options.setAppActivity(".MainActivity");
+                options.setAutomationName("UiAutomator2");
+                options.setPlatformName("Android");
+                options.setDeviceName(udid);
+                options.setUdid(udid);
 
-            options.setCapability("noReset", true);
-            options.setCapability("autoGrantPermissions", true);
-            options.setCapability("ignoreHiddenApiPolicyError", true);
+                options.setAppPackage(
+                        ConfigManager.get("android.appPackage")
+                );
 
-            return new AndroidDriver(
-                    new URL("http://127.0.0.1:4723"),
-                    options
-            );
+                options.setAppActivity(
+                        ConfigManager.get("android.appActivity")
+                );
+
+                options.setNoReset(true);
+
+                return new AndroidDriver(new URL(server), options);
+            }
+
+            if (platform.equalsIgnoreCase("ios")) {
+
+                XCUITestOptions options = new XCUITestOptions();
+
+                options.setAutomationName("XCUITest");
+                options.setPlatformName("iOS");
+
+                options.setBundleId(
+                        ConfigManager.get("ios.bundleId")
+                );
+
+                return new IOSDriver(new URL(server), options);
+            }
 
         } catch (Exception e) {
 
-            throw new RuntimeException("Failed to create driver", e);
+            throw new RuntimeException(e);
         }
+
+        throw new RuntimeException("Platform not supported");
     }
 }
