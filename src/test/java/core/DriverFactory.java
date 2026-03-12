@@ -14,13 +14,10 @@ public class DriverFactory {
 
         try {
 
-            String server =
-                    ConfigManager.get("appiumServer");
+            String server = ConfigManager.get("appiumServer");
+            String platform = ConfigManager.get("platform");
 
-            String platform =
-                    ConfigManager.get("platform");
-
-            if (platform.equalsIgnoreCase("android") || platform.equalsIgnoreCase("auto")) {
+            if ("android".equalsIgnoreCase(platform) || "auto".equalsIgnoreCase(platform)) {
 
                 String udid = DeviceManager.getAndroidUDID();
 
@@ -28,6 +25,7 @@ public class DriverFactory {
 
                 options.setAutomationName("UiAutomator2");
                 options.setPlatformName("Android");
+
                 options.setDeviceName(udid);
                 options.setUdid(udid);
 
@@ -41,10 +39,16 @@ public class DriverFactory {
 
                 options.setNoReset(true);
 
+                // 👇 QUAN TRỌNG - tránh lỗi Android 13/14
+                options.setAutoGrantPermissions(true);
+                options.setIgnoreHiddenApiPolicyError(true);
+                options.setDisableWindowAnimation(true);
+                options.setSkipDeviceInitialization(true);
+
                 return new AndroidDriver(new URL(server), options);
             }
 
-            if (platform.equalsIgnoreCase("ios")) {
+            if ("ios".equalsIgnoreCase(platform)) {
 
                 XCUITestOptions options = new XCUITestOptions();
 
@@ -55,12 +59,14 @@ public class DriverFactory {
                         ConfigManager.get("ios.bundleId")
                 );
 
+                options.setNoReset(true);
+
                 return new IOSDriver(new URL(server), options);
             }
 
         } catch (Exception e) {
 
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to create driver: " + e.getMessage(), e);
         }
 
         throw new RuntimeException("Platform not supported");

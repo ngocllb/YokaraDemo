@@ -4,6 +4,7 @@ import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
 import java.util.Map;
 
@@ -15,15 +16,22 @@ public class BasePage {
     public BasePage(AppiumDriver driver) {
 
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
     protected WebElement find(By locator) {
-        return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+
+        return wait.until(
+                ExpectedConditions.visibilityOfElementLocated(locator)
+        );
     }
 
     protected void click(By locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+
+        WebElement element =
+                wait.until(ExpectedConditions.elementToBeClickable(locator));
+
+        element.click();
     }
 
     protected void type(By locator, String text){
@@ -31,6 +39,7 @@ public class BasePage {
         WebElement element =
                 wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 
+        element.click();
         element.clear();
         element.sendKeys(text);
     }
@@ -38,13 +47,16 @@ public class BasePage {
     protected boolean isDisplayed(By locator) {
 
         try {
-            return driver.findElement(locator).isDisplayed();
+
+            return wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(locator)
+            ).isDisplayed();
+
         } catch (Exception e) {
+
             return false;
         }
     }
-
-    /* ===== Dynamic click using Map ===== */
 
     protected void clickByKey(Map<String, By> map, String key){
 
@@ -56,5 +68,4 @@ public class BasePage {
 
         click(locator);
     }
-
 }

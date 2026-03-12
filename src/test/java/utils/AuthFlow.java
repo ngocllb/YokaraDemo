@@ -2,8 +2,10 @@ package utils;
 
 import base.BasePage;
 import io.appium.java_client.AppiumDriver;
+
 import pages.toi.ToiGuestPage;
 import pages.toi.ToiProfilePage;
+
 import pages.toi.login.*;
 
 public class AuthFlow {
@@ -30,7 +32,7 @@ public class AuthFlow {
 
             methodPage = new LoginMethodPage(driver);
 
-        }else{
+        } else {
 
             methodPage = (LoginMethodPage) page;
         }
@@ -53,8 +55,8 @@ public class AuthFlow {
 
             case "facebook":
 
-                AccountPage socialPage =
-                        (AccountPage) methodPage.loginWith("facebook");
+                FbGoogleAccountPage socialPage =
+                        (FbGoogleAccountPage) methodPage.loginWith("facebook");
 
                 socialPage.selectFirstAccount();
 
