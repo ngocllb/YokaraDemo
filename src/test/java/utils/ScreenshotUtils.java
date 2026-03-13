@@ -1,51 +1,24 @@
 package utils;
 
 import io.appium.java_client.AppiumDriver;
-import io.qameta.allure.Attachment;
+import io.qameta.allure.Allure;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.ByteArrayInputStream;
 
 public class ScreenshotUtils {
 
-    private static final String SCREENSHOT_DIR = "reports/screenshots/";
+    public static void attachScreenshot(AppiumDriver driver, String name) {
 
-    public static void takeScreenshot(AppiumDriver driver, String testName) {
+        byte[] screenshot = ((TakesScreenshot) driver)
+                .getScreenshotAs(OutputType.BYTES);
 
-        try {
-
-            File dir = new File(SCREENSHOT_DIR);
-
-            if (!dir.exists() && !dir.mkdirs()) {
-                throw new RuntimeException("Failed to create screenshot directory");
-            }
-
-            String timestamp =
-                    new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-
-            String fileName =
-                    SCREENSHOT_DIR + testName + "_" + timestamp + ".png";
-
-            File screenshot = driver.getScreenshotAs(OutputType.FILE);
-
-            Files.copy(screenshot.toPath(), new File(fileName).toPath());
-
-            attachScreenshot(driver);
-
-        } catch (Exception e) {
-
-            System.out.println("Screenshot capture failed: " + e.getMessage());
-
-        }
-    }
-
-    @Attachment(value = "Failure Screenshot", type = "image/png")
-    public static byte[] attachScreenshot(AppiumDriver driver) {
-
-        return driver.getScreenshotAs(OutputType.BYTES);
-
+        Allure.addAttachment(
+                name,
+                "image/png",
+                new ByteArrayInputStream(screenshot),
+                ".png"
+        );
     }
 }

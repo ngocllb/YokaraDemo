@@ -3,6 +3,7 @@ package tests;
 import base.BaseDriver;
 import base.BottomNav;
 import io.qameta.allure.Allure;
+import listeners.AllureListener;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.toi.caidat.CaiDatPage;
@@ -11,8 +12,9 @@ import pages.toi.ToiGuestPage;
 import pages.toi.ToiProfilePage;
 import flows.AuthFlow;
 import org.testng.annotations.Listeners;
+import utils.StepUtils;
 
-@Listeners(utils.AllureListener.class)
+@Listeners(AllureListener.class)
 public class LoginMethodTest extends BaseDriver {
 
     private final String TEST_UID = "6026833";
@@ -23,14 +25,13 @@ public class LoginMethodTest extends BaseDriver {
 
         BottomNav bottomNav = new BottomNav(driver);
         AuthFlow auth = new AuthFlow(driver);
-
-        Allure.step("Navigate tới tab Tôi", () -> {
+        StepUtils.step("Navigate tới tab Tôi", () -> {
             bottomNav.goToToi();
         });
 
         ToiGuestPage guestPage = new ToiGuestPage(driver);
 
-        Allure.step("Verify đang ở trạng thái Guest", () -> {
+        StepUtils.step("Verify đang ở trạng thái Guest", () -> {
             Assert.assertTrue(
                     guestPage.isGuest(),
                     "Không tìm thấy button Đăng nhập"
@@ -42,7 +43,7 @@ public class LoginMethodTest extends BaseDriver {
                 () -> auth.login("uid", TEST_UID, TEST_PASSWORD)
         );
 
-        Allure.step("Verify Login thành công và UID chính xác sau khi login", () -> {
+        StepUtils.step("Verify Login thành công và UID chính xác sau khi login", () -> {
             Assert.assertTrue(
                     profilePage.isUserIdDisplayed(TEST_UID),
                     "UID hiển thị không đúng sau khi login"
@@ -61,7 +62,7 @@ public class LoginMethodTest extends BaseDriver {
             return popup.confirmLogout();
         });
 
-        Allure.step("Verify đã logout", () -> {
+        StepUtils.step("Verify đã logout", () -> {
             Assert.assertTrue(
                     guestAfterLogout.isGuest(),
                     "Logout thất bại"

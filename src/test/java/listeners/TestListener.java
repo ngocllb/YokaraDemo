@@ -1,20 +1,32 @@
 package listeners;
 
 import base.BaseDriver;
+import io.qameta.allure.Attachment;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import utils.ScreenshotUtils;
+import utils.StepContext;
 
 public class TestListener implements ITestListener {
+
 
     @Override
     public void onTestFailure(ITestResult result) {
 
-        BaseDriver base = (BaseDriver) result.getInstance();
+        String stepName = StepContext.getStep();
 
-        ScreenshotUtils.takeScreenshot(
-                base.getDriver(),
-                result.getName()
-        );
+        if (stepName == null) {
+            stepName = "Unknown Step";
+        }
+
+        captureScreenshot(stepName);
+    }
+
+    @Attachment(value = "Failure Screenshot - {stepName}", type = "image/png")
+    public byte[] captureScreenshot(String stepName) {
+
+        return ((TakesScreenshot) BaseDriver.getDriver())
+                .getScreenshotAs(OutputType.BYTES);
     }
 }
