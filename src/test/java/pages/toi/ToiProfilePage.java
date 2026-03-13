@@ -6,6 +6,7 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import pages.toi.caidat.CaiDatPage;
 
 public class ToiProfilePage extends BasePage {
 
@@ -14,7 +15,7 @@ public class ToiProfilePage extends BasePage {
     // UID hiển thị trên profile
     private By userId =
             AppiumBy.xpath("//android.widget.ImageView[@content-desc]");
-
+    private By btnSetting = AppiumBy.xpath("(//android.widget.ImageView)[1]");
     public ToiProfilePage(AppiumDriver driver){
         super(driver);
         bottomNav = new BottomNav(driver);
@@ -38,6 +39,13 @@ public class ToiProfilePage extends BasePage {
         }
     }
 
+    public CaiDatPage openSetting(){
+
+        click(btnSetting);
+
+        return new CaiDatPage(driver);
+
+    }
     public BottomNav nav(){
         return bottomNav;
     }

@@ -1,4 +1,4 @@
-package utils;
+package flows;
 
 import base.BasePage;
 import io.appium.java_client.AppiumDriver;

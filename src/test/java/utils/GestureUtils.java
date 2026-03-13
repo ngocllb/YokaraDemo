@@ -1,3 +1,5 @@
+//Xử lý gesture của mobile ví dụ Swipe, scrool, zoom, tap, drag
+
 package utils;
 
 import io.appium.java_client.android.AndroidDriver;

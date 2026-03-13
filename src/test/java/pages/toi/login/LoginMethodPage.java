@@ -23,6 +23,7 @@ public class LoginMethodPage extends BasePage {
         loginMethods.put("uid", AppiumBy.accessibilityId("Đăng nhập bằng ID"));
     }
 
+
     public BasePage loginWith(String method){
 
         By locator = loginMethods.get(method.toLowerCase());

@@ -1,3 +1,4 @@
+//tự động detect ra các driver của thiết b khi chạy test
 package utils;
 
 import java.io.BufferedReader;
