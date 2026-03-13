@@ -4,7 +4,6 @@ import base.BasePage;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.toi.ToiProfilePage;
 
@@ -14,7 +13,9 @@ public class OtpVerificationPage extends BasePage {
             "//android.view.View[contains(@content-desc,'Nhập mã OTP')]"
     );
 
-    private final By otpInput = By.xpath("//android.widget.EditText");
+    private final By otpInput = AppiumBy.xpath(
+            "//android.view.View[contains(@content-desc,'Nhập mã OTP')]//android.widget.EditText"
+    );
 
     private final By btnConfirm = AppiumBy.accessibilityId("Xác nhận");
 
@@ -28,19 +29,34 @@ public class OtpVerificationPage extends BasePage {
         super(driver);
     }
 
+    public OtpVerificationPage waitForPageDisplayed() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(otpTitle));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(otpInput));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btnConfirm));
+        return this;
+    }
+
     public boolean isOtpPageDisplayed() {
-        return isDisplayed(otpTitle);
+        try {
+            waitForPageDisplayed();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void enterOtp(String otp) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(otpInput));
         type(otpInput, otp);
     }
 
     public void clickConfirm() {
+        wait.until(ExpectedConditions.elementToBeClickable(btnConfirm));
         click(btnConfirm);
     }
 
     public void clickResendCode() {
+        wait.until(ExpectedConditions.elementToBeClickable(btnResendCode));
         click(btnResendCode);
     }
 
@@ -53,14 +69,17 @@ public class OtpVerificationPage extends BasePage {
     }
 
     public ToiProfilePage submitValidOtp(String otp) {
+        waitForPageDisplayed();
         enterOtp(otp);
         clickConfirm();
         return new ToiProfilePage(driver);
     }
 
     public OtpVerificationPage submitInvalidOtp(String otp) {
+        waitForPageDisplayed();
         enterOtp(otp);
         clickConfirm();
+        waitForOtpError();
         return this;
     }
 
@@ -73,6 +92,6 @@ public class OtpVerificationPage extends BasePage {
     }
 
     public boolean isStillOnOtpPage() {
-        return isDisplayed(btnConfirm);
+        return isDisplayed(otpTitle) && isDisplayed(btnConfirm);
     }
 }

@@ -23,6 +23,6 @@ public class LoginPhonePage extends BasePage {
         type(phoneInput, phone);
         click(btnNext);
 
-        return new OtpVerificationPage(driver);
+        return new OtpVerificationPage(driver).waitForPageDisplayed();
     }
 }
