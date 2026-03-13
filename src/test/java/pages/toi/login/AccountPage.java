@@ -4,6 +4,9 @@ import base.BasePage;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public class AccountPage extends BasePage {
 
@@ -16,35 +19,35 @@ public class AccountPage extends BasePage {
      * Ví dụ: 6069820
      */
     public void selectAccountByUID(String uid) {
-
-        driver.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiSelector()" +
-                                ".className(\"android.view.View\")" +
-                                ".descriptionContains(\"ID: " + uid + "\")"
-                )
-        ).click();
+        By accountByUid = AppiumBy.androidUIAutomator(
+                "new UiSelector()" +
+                        ".className(\"android.view.View\")" +
+                        ".descriptionContains(\"ID: " + uid + "\")"
+        );
+        click(accountByUid);
     }
 
     /**
      * Chọn đăng nhập bằng tài khoản khác
      */
     public void selectAnotherMethodLogin() {
-
-        driver.findElement(
-                AppiumBy.accessibilityId("Đăng nhập bằng tài khoản khác")
-        ).click();
+        click(AppiumBy.accessibilityId("Đăng nhập bằng tài khoản khác"));
     }
 
     /**
      * Chọn account đầu tiên (dùng cho social login)
      */
     public void selectFirstAccount(){
-
-        driver.findElements(
+        List<WebElement> accounts = driver.findElements(
                 AppiumBy.androidUIAutomator(
                         "new UiSelector().className(\"android.view.View\").clickable(true)"
                 )
-        ).get(0).click();
+        );
+
+        if (accounts.isEmpty()) {
+            throw new RuntimeException("No saved account found on Account page");
+        }
+
+        accounts.get(0).click();
     }
 }
