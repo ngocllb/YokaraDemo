@@ -1,30 +1,43 @@
 package core;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigManager {
 
-    private static Properties prop;
+    private static final String CONFIG_PATH = "config/config.properties";
+    private static final Properties PROPERTIES = loadProperties();
 
-    static {
+    private ConfigManager() {
+        // utility class
+    }
 
-        try {
+    private static Properties loadProperties() {
+        Properties properties = new Properties();
 
-            prop = new Properties();
-
-            FileInputStream fis =
-                    new FileInputStream("config/config.properties");
-
-            prop.load(fis);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
+        try (FileInputStream fis = new FileInputStream(CONFIG_PATH)) {
+            properties.load(fis);
+            return properties;
+        } catch (IOException e) {
+            throw new IllegalStateException(
+                    "Cannot load configuration from " + CONFIG_PATH,
+                    e
+            );
         }
     }
 
     public static String get(String key) {
-        return prop.getProperty(key);
+        return PROPERTIES.getProperty(key);
+    }
+
+    public static String getRequired(String key) {
+        String value = get(key);
+
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException("Missing required config key: " + key);
+        }
+
+        return value.trim();
     }
 }

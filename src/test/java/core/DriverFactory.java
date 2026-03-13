@@ -14,8 +14,8 @@ public class DriverFactory {
 
         try {
 
-            String server = ConfigManager.get("appiumServer");
-            String platform = ConfigManager.get("platform");
+            String server = ConfigManager.getRequired("appiumServer");
+            String platform = ConfigManager.getRequired("platform");
 
             if ("android".equalsIgnoreCase(platform) || "auto".equalsIgnoreCase(platform)) {
 
@@ -30,11 +30,11 @@ public class DriverFactory {
                 options.setUdid(udid);
 
                 options.setAppPackage(
-                        ConfigManager.get("android.appPackage")
+                        ConfigManager.getRequired("android.appPackage")
                 );
 
                 options.setAppActivity(
-                        ConfigManager.get("android.appActivity")
+                        ConfigManager.getRequired("android.appActivity")
                 );
 
                 options.setNoReset(true);
@@ -56,7 +56,7 @@ public class DriverFactory {
                 options.setPlatformName("iOS");
 
                 options.setBundleId(
-                        ConfigManager.get("ios.bundleId")
+                        ConfigManager.getRequired("ios.bundleId")
                 );
 
                 options.setNoReset(true);

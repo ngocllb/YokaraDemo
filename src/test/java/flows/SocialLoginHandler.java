@@ -8,77 +8,42 @@ import java.util.List;
 
 public class SocialLoginHandler {
 
-    private AppiumDriver driver;
+    private final AppiumDriver driver;
 
     public SocialLoginHandler(AppiumDriver driver){
         this.driver = driver;
     }
 
-    private By googleAccount =
+    private final By googleAccount =
             By.id("com.google.android.gms:id/account_name");
 
-    private By facebookContinue =
+    private final By facebookContinue =
             By.id("com.facebook.katana:id/continue_button");
 
-    private By zaloAccount =
+    private final By zaloAccount =
             By.id("com.zing.zalo:id/tv_name");
 
     public void handle(){
 
-        if(isGoogleLogin()){
-            selectGoogleAccount();
-        }
-        else if(isFacebookLogin()){
-            continueFacebook();
-        }
-        else if(isZaloLogin()){
-            selectZaloAccount();
+        if (clickFirstIfPresent(googleAccount)) {
+            return;
         }
 
-    }
-
-    private boolean isGoogleLogin(){
-
-        return driver.findElements(googleAccount).size() > 0;
-
-    }
-
-    private boolean isFacebookLogin(){
-
-        return driver.findElements(facebookContinue).size() > 0;
-
-    }
-
-    private boolean isZaloLogin(){
-
-        return driver.findElements(zaloAccount).size() > 0;
-
-    }
-
-    private void selectGoogleAccount(){
-
-        List<WebElement> accounts = driver.findElements(googleAccount);
-
-        if(accounts.size() > 0){
-            accounts.get(0).click();
+        if (clickFirstIfPresent(facebookContinue)) {
+            return;
         }
 
+        clickFirstIfPresent(zaloAccount);
     }
 
-    private void continueFacebook(){
+    private boolean clickFirstIfPresent(By locator) {
+        List<WebElement> matches = driver.findElements(locator);
 
-        driver.findElement(facebookContinue).click();
-
-    }
-
-    private void selectZaloAccount(){
-
-        List<WebElement> accounts = driver.findElements(zaloAccount);
-
-        if(accounts.size() > 0){
-            accounts.get(0).click();
+        if (matches.isEmpty()) {
+            return false;
         }
 
+        matches.get(0).click();
+        return true;
     }
-
 }
